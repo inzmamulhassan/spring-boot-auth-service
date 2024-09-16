@@ -10,6 +10,7 @@ import com.hassan.auth.model.dto.RegisterDto;
 import com.hassan.auth.model.dto.UserDto;
 import com.hassan.auth.service.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +26,9 @@ public class AuthController {
      * @return UserDto
      */
     @PostMapping("/login")
-    public UserDto login(LoginDto loginDto) {
+    public UserDto login(@Valid @RequestBody LoginDto loginDto) {
         log.info("Logging in user: {}", loginDto);
-        return null;
+        return authService.login(loginDto);
     }
 
     /**
@@ -35,7 +36,7 @@ public class AuthController {
      * @return UserDto
      */
     @PostMapping("/register")
-    public UserDto register(@RequestBody RegisterDto registerDto) {
+    public UserDto register(@Valid @RequestBody RegisterDto registerDto) {
         log.info("Registering user: {}", registerDto);
         return authService.register(registerDto);
     }

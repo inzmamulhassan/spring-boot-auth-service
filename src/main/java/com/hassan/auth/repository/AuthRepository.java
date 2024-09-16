@@ -7,4 +7,5 @@ import com.hassan.auth.model.entity.User;
 
 @Repository
 public interface AuthRepository extends JpaRepository<User, Long> {
+    public User findByEmailAndPassword(String email, String password);
 }

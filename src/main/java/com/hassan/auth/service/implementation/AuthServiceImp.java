@@ -18,7 +18,7 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public UserDto login(LoginDto loginDto) {
-        return null;
+        return UserMapper.toUserDto(authRepository.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword()));
     }
 
     @Override
