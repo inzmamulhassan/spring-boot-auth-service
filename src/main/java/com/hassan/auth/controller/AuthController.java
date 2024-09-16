@@ -1,5 +1,8 @@
 package com.hassan.auth.controller;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hassan.auth.model.dto.LoginDto;
 import com.hassan.auth.model.dto.RegisterDto;
-import com.hassan.auth.model.dto.UserDto;
 import com.hassan.auth.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -20,15 +22,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
+    private final AuthenticationManager authenticationManager;
 
     /**
      * @param loginDto
      * @return UserDto
      */
-    @PostMapping("/login")
-    public UserDto login(@Valid @RequestBody LoginDto loginDto) {
-        log.info("Logging in user: {}", loginDto);
-        return authService.login(loginDto);
+    @PostMapping("/token")
+    public String getToken(@Valid @RequestBody LoginDto loginDto) {
+        log.info("get token user: {}", loginDto);
+        final Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+        if (authenticate.isAuthenticated()) {
+            log.info("User authenticated: {}", loginDto);
+            return authService.generateToken(loginDto.getEmail());
+        }
+        throw new RuntimeException("Invalid credentials");
+    }
+
+    @PostMapping("/validateToken")
+    public void validateToken(LoginDto loginDto) {
+        log.info("Validating token: {}", loginDto);
+//        authService.validateToken(loginDto.getToken());
     }
 
     /**
@@ -36,8 +50,10 @@ public class AuthController {
      * @return UserDto
      */
     @PostMapping("/register")
-    public UserDto register(@Valid @RequestBody RegisterDto registerDto) {
+    public String register(@Valid @RequestBody RegisterDto registerDto) {
         log.info("Registering user: {}", registerDto);
         return authService.register(registerDto);
     }
+
+
 }
