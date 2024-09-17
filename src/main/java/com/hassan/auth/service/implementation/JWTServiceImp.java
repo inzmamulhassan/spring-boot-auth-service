@@ -1,6 +1,5 @@
 package com.hassan.auth.service.implementation;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,4 +37,5 @@ public class JWTServiceImp implements JWTService {
                 .setSigningKey(SECRET)
                 .build().parseSignedClaims(token);
     }
+
 }

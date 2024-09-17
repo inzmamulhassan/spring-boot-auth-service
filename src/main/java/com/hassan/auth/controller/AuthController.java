@@ -3,9 +3,11 @@ package com.hassan.auth.controller;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hassan.auth.model.dto.LoginDto;
@@ -39,10 +41,10 @@ public class AuthController {
         throw new RuntimeException("Invalid credentials");
     }
 
-    @PostMapping("/validateToken")
-    public void validateToken(LoginDto loginDto) {
-        log.info("Validating token: {}", loginDto);
-//        authService.validateToken(loginDto.getToken());
+    @GetMapping("/validate")
+    public void validateToken(@RequestParam String token) {
+        log.info("Validating token: {}", token);
+        authService.validateToken(token);
     }
 
     /**
@@ -53,6 +55,12 @@ public class AuthController {
     public String register(@Valid @RequestBody RegisterDto registerDto) {
         log.info("Registering user: {}", registerDto);
         return authService.register(registerDto);
+    }
+
+    @GetMapping("/user")
+    public String getUser(@RequestParam String email, @RequestParam String token) {
+        log.info("Getting user from token: {}", token);
+        return email;
     }
 
 
