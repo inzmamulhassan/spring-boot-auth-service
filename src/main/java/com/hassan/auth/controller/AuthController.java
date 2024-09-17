@@ -42,9 +42,10 @@ public class AuthController {
     }
 
     @GetMapping("/validate")
-    public void validateToken(@RequestParam String token) {
+    public String validateToken(@RequestParam String token) {
         log.info("Validating token: {}", token);
         authService.validateToken(token);
+        return "Token is valid";
     }
 
     /**
