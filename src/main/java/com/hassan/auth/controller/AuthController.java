@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hassan.auth.model.dto.LoginDto;
 import com.hassan.auth.model.dto.RegisterDto;
+import com.hassan.auth.model.dto.UserDto;
 import com.hassan.auth.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -59,9 +60,8 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    public String getUser(@RequestParam String email, @RequestParam String token) {
-        log.info("Getting user from token: {}", token);
-        return email;
+    public UserDto getUser( @RequestParam String token) {
+        return authService.getUser(token);
     }
 
 

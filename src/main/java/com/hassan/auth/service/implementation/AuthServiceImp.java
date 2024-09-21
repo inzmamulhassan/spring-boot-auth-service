@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hassan.auth.model.dto.RegisterDto;
+import com.hassan.auth.model.dto.UserDto;
 import com.hassan.auth.model.entity.User;
 import com.hassan.auth.model.mapper.UserMapper;
 import com.hassan.auth.repository.AuthRepository;
@@ -37,5 +38,10 @@ public class AuthServiceImp implements AuthService {
     @Override
     public void validateToken(String token) {
         jwtService.validateToken(token);
+    }
+
+    @Override
+    public UserDto getUser(String token) {
+        return UserMapper.toUserDto(authRepository.findByAuthId(token));
     }
 }

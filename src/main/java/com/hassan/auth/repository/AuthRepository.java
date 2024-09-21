@@ -8,4 +8,6 @@ import com.hassan.auth.model.entity.User;
 @Repository
 public interface AuthRepository extends JpaRepository<User, Long> {
     public User findByEmail(String email);
+
+    User findByAuthId(String token);
 }
