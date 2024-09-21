@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hassan.auth.model.dto.RegisterDto;
+import com.hassan.auth.model.entity.User;
 import com.hassan.auth.model.mapper.UserMapper;
 import com.hassan.auth.repository.AuthRepository;
 import com.hassan.auth.service.AuthService;
@@ -19,9 +20,13 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public String register(RegisterDto registerDto) {
-         registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-         authRepository.save(UserMapper.toUser(registerDto));
-         return generateToken(registerDto.getEmail());
+        registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        final User user = authRepository.save(UserMapper.toUser(registerDto));
+        final String token = generateToken(registerDto.getEmail());
+        user.setAuthId(token);
+        authRepository.save(user);
+        return token;
+
     }
 
     @Override
