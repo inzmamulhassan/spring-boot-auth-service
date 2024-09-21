@@ -38,4 +38,13 @@ public class JWTServiceImp implements JWTService {
                 .build().parseSignedClaims(token);
     }
 
+    public String getEmailFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
 }

@@ -9,4 +9,6 @@ public interface AuthService {
     void validateToken(String token);
 
     UserDto getUser(String token);
+
+    String getUserEmail(String token);
 }

@@ -44,4 +44,11 @@ public class AuthServiceImp implements AuthService {
     public UserDto getUser(String token) {
         return UserMapper.toUserDto(authRepository.findByAuthId(token));
     }
+
+    @Override
+    public String getUserEmail(String token) {
+        return jwtService.getEmailFromToken(token);
+    }
+
+
 }

@@ -46,7 +46,7 @@ public class AuthController {
     public String validateToken(@RequestParam String token) {
         log.info("Validating token: {}", token);
         authService.validateToken(token);
-        return "Token is valid";
+        return authService.getUserEmail(token);
     }
 
     /**
