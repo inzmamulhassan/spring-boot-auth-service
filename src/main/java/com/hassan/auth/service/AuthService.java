@@ -8,7 +8,7 @@ public interface AuthService {
     String generateToken(String email);
     void validateToken(String token);
 
-    UserDto getUser(String token);
+    UserDto getUser(String email);
 
     String getUserEmail(String token);
 }
