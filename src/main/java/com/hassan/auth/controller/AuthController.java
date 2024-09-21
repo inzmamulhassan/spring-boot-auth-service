@@ -59,7 +59,7 @@ public class AuthController {
         return authService.register(registerDto);
     }
 
-    @GetMapping("/user/${email}")
+    @GetMapping("/user/{email}")
     public UserDto getUser(@RequestParam String email) {
         log.info("Getting user: {}", email);
         return authService.getUser(email);
